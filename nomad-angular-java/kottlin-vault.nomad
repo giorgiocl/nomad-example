@@ -12,16 +12,30 @@ job "backend" {
       }*/
 
       task "server" {
+         vault {
+        namespace = "default"
+        policies  = ["nomad-server"]
+         }
           driver = "docker"
 
           config {
-              image = "iacsquad/backend-java:local"
+              image = "giorgiocl/backend:local"
               ports = ["http"]
           }
 
-         // env {
-           //   PORT = "${NOMAD_PORT_http}"
-          ///}
+          template {
+              data        = <<EOF
+                  {{ with secret "secret/data/engineering" }}
+                     DB_HOST = {{.Data.data.DB_HOST}}
+                      DB_NAME = {{.Data.data.DB_NAME}}
+                      DB_PORT = {{.Data.data.DB_PORT}}
+                      DB_USER = {{.Data.data.DB_USER}}
+                      DB_PASSWORD = {{.Data.data.DB_PASSWORD}}
+                  {{ end }}
+                  EOF
+                  destination = "local/config.env"
+                  env = true
+          }
 
           service {
               name = "backend"
