@@ -3,7 +3,7 @@ job "frontend" {
   type = "service"
 
   group "frontend" {    
-       count = 1ß
+       count = 1
       /*scaling {
           enabled = true
           min = 1
@@ -15,8 +15,9 @@ job "frontend" {
           driver = "docker"
 
           config {
-              //image = "iacsquad/frontend-angular:local"
-              image = "dilsontw/iac-front:latest"
+              // image = "iacsquad/frontend-angular:local"
+              // image = "dilsontw/iac-front:latest"
+              image = "716635345492.dkr.ecr.us-east-2.amazonaws.com/frontend-angular"
               ports = ["http"]
           }
 

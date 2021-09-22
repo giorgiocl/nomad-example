@@ -19,13 +19,14 @@ job "backend" {
           driver = "docker"
 
           config {
-              image = "giorgiocl/backend:local"
+              // image = "giorgiocl/backend:local"
+              image = "716635345492.dkr.ecr.us-east-2.amazonaws.com/backend-java"
               ports = ["http"]
           }
 
           template {
               data        = <<EOF
-                  {{ with secret "secret/data/engineering" }}
+                  {{ with secret "kv/data/engineering" }}
                      DB_HOST = {{.Data.data.DB_HOST}}
                       DB_NAME = {{.Data.data.DB_NAME}}
                       DB_PORT = {{.Data.data.DB_PORT}}
